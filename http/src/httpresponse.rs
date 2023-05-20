@@ -1,7 +1,7 @@
 use std::{io::Write, collections::HashMap};
 
 #[derive(Debug, PartialEq, Clone)]
-struct HttpResponse<'a> {
+pub struct HttpResponse<'a> {
     version: &'a str,
     status_code: &'a str,
     status_text: &'a str,
