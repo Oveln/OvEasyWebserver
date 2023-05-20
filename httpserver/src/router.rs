@@ -1,5 +1,6 @@
 use http::{httprequest, httprequest::HttpRequest, httpresponse, httpresponse::HttpResponse};
 use std::io::{Read, Write};
+use crate::handler::{WebServiceHandler, StaticPageHandler, Handler, PageNotFoundHandler};
 
 pub struct Router;
 
@@ -12,19 +13,25 @@ impl Router {
                         let route: Vec<&str> = s.split("/").collect();
                         match route[1] {
                             "api" => {
-                                // let resp: HttpResponse = WebServiceHandler::handle(&req);
-                                // let _ = resp.send_response(stream);
+                                let resp: HttpResponse = WebServiceHandler::handle(&req);
+                                let _ = resp.send_response(stream);
                             },
                             _ => {
-                                // let resp: HttpResponse = StaticPageHandler::handle(&req);
-                                // let _ = resp.send_response(stream);
+                                let resp: HttpResponse = StaticPageHandler::handle(&req);
+                                let _ = resp.send_response(stream);
                             }
                         }
                     }
                 }
             },
-            httprequest::Method::Post => todo!(),
-            httprequest::Method::Uninitialized => todo!(),
+            httprequest::Method::Post => {
+                let resp: HttpResponse = PageNotFoundHandler::handle(&req);
+                let _ = resp.send_response(stream);
+            },
+            httprequest::Method::Uninitialized => {
+                let resp: HttpResponse = PageNotFoundHandler::handle(&req);
+                let _ = resp.send_response(stream);
+            }
         }
     }
 }

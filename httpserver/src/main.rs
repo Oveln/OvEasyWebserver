@@ -1,5 +1,6 @@
 mod server;
 mod router;
+mod handler;
 
 use server::Server;
 
